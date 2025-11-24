@@ -6,6 +6,7 @@ import { AuthWrapper } from "@/components/AuthWrapper";
 import { Navbar } from "@/components/Navbar";
 import { request } from "@arcjet/next";
 import { aj } from "@/lib/arcjet";
+import { Analytics } from "@vercel/analytics/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -74,6 +75,7 @@ export default async function RootLayout({
             <Navbar />
           </AuthWrapper>
         </AuthProvider>
+        <Analytics />
       </body>
     </html>
   );
