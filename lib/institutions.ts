@@ -182,3 +182,83 @@ export async function getCities(supabase: SupabaseClient) {
         state: Array.isArray(c.states) ? c.states[0].name : (c.states as any).name 
     }))
 }
+
+export async function getInstitutionById(supabase: SupabaseClient, id: number) {
+    const { data, error } = await supabase
+        .from('institutions')
+        .select(`
+            institution_id,
+            institution_name,
+            rank,
+            cities (
+                name,
+                states (
+                    name
+                )
+            ),
+            institution_levels (
+                description
+            ),
+            institution_controls (
+                description
+            ),
+            urbanization_locales (
+                description
+            ),
+            admission_cycles (
+                year_admissions,
+                tuition_and_fees,
+                total_price_on_campus,
+                total_price_off_campus,
+                applicants_total,
+                percent_admitted_total,
+                open_admission_policy,
+                english_requirements (
+                    toefl_minimum,
+                    ielts_minimum,
+                    out_of_state_tuition_intl
+                ),
+                admission_requirements (
+                    secondary_school_gpa,
+                    secondary_school_rank,
+                    secondary_school_record,
+                    college_prep_program,
+                    recommendations,
+                    formal_demonstration,
+                    work_experience,
+                    personal_statement,
+                    legacy_status,
+                    admission_test_scores,
+                    english_proficiency_test,
+                    other_test
+                ),
+                test_scores (
+                    sat_erw_25,
+                    sat_erw_75,
+                    sat_math_25,
+                    sat_math_75,
+                    act_composite_25,
+                    act_composite_75
+                ),
+                international_documents (
+                    document_name
+                )
+            ),
+            enrollment_stats (
+                year_enrollment,
+                undergraduate_headcount,
+                percent_nonresident,
+                associate_degree_count,
+                bachelor_degree_count,
+                percent_nonresident_secondary
+            ),
+            popular_majors (
+                major_name
+            )
+        `)
+        .eq('institution_id', id)
+        .single()
+
+    if (error) throw error
+    return data
+}

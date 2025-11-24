@@ -2,6 +2,7 @@ import { MagicCard } from "@/components/ui/magic-card"
 import { Badge } from "@/components/ui/badge"
 import { MapPin, Trophy, DollarSign, Users } from "lucide-react"
 import { cn } from "@/lib/utils"
+import Link from "next/link"
 
 interface SchoolCardProps {
     institution: {
@@ -36,42 +37,44 @@ export function SchoolCard({ institution }: SchoolCardProps) {
         : "N/A"
 
     return (
-        <MagicCard
-            className="h-full cursor-pointer flex flex-col justify-between p-6 shadow-sm hover:shadow-md transition-all duration-200"
-            gradientColor="#D9D9D955"
-        >
-            <div className="space-y-4">
-                <div className="flex justify-between items-start gap-2">
-                    <h3 className="text-lg font-bold leading-tight group-hover:text-primary transition-colors line-clamp-2">
-                        {institution.institution_name}
-                    </h3>
-                    {institution.rank && (
-                        <Badge variant="secondary" className="shrink-0 flex gap-1 items-center">
-                            <Trophy className="w-3 h-3" />
-                            #{institution.rank}
-                        </Badge>
-                    )}
+        <Link href={`/schools/${institution.institution_id}`} className="block h-full">
+            <MagicCard
+                className="h-full cursor-pointer flex flex-col justify-between p-6 shadow-sm hover:shadow-md transition-all duration-200"
+                gradientColor="#D9D9D955"
+            >
+                <div className="space-y-4">
+                    <div className="flex justify-between items-start gap-2">
+                        <h3 className="text-lg font-bold leading-tight group-hover:text-primary transition-colors line-clamp-2">
+                            {institution.institution_name}
+                        </h3>
+                        {institution.rank && (
+                            <Badge variant="secondary" className="shrink-0 flex gap-1 items-center">
+                                <Trophy className="w-3 h-3" />
+                                #{institution.rank}
+                            </Badge>
+                        )}
+                    </div>
+                    <div className="flex items-center text-muted-foreground text-sm gap-1">
+                        <MapPin className="w-3.5 h-3.5" />
+                        <span>{location}</span>
+                    </div>
                 </div>
-                <div className="flex items-center text-muted-foreground text-sm gap-1">
-                    <MapPin className="w-3.5 h-3.5" />
-                    <span>{location}</span>
+                
+                <div className="grid grid-cols-2 gap-4 pt-6 mt-auto">
+                    <div className="flex flex-col gap-1">
+                        <span className="text-xs text-muted-foreground uppercase font-medium flex items-center gap-1">
+                            <Users className="w-3 h-3" /> Acceptance
+                        </span>
+                        <span className="font-semibold">{acceptanceRate}</span>
+                    </div>
+                    <div className="flex flex-col gap-1">
+                        <span className="text-xs text-muted-foreground uppercase font-medium flex items-center gap-1">
+                            <DollarSign className="w-3 h-3" /> Tuition
+                        </span>
+                        <span className="font-semibold">{tuition}</span>
+                    </div>
                 </div>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4 pt-6 mt-auto">
-                <div className="flex flex-col gap-1">
-                    <span className="text-xs text-muted-foreground uppercase font-medium flex items-center gap-1">
-                        <Users className="w-3 h-3" /> Acceptance
-                    </span>
-                    <span className="font-semibold">{acceptanceRate}</span>
-                </div>
-                <div className="flex flex-col gap-1">
-                    <span className="text-xs text-muted-foreground uppercase font-medium flex items-center gap-1">
-                        <DollarSign className="w-3 h-3" /> Tuition
-                    </span>
-                    <span className="font-semibold">{tuition}</span>
-                </div>
-            </div>
-        </MagicCard>
+            </MagicCard>
+        </Link>
     )
 }
