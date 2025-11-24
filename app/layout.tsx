@@ -4,6 +4,8 @@ import "./globals.css";
 import { AuthProvider } from "@/lib/auth-context";
 import { AuthWrapper } from "@/components/AuthWrapper";
 import { Navbar } from "@/components/Navbar";
+import { request } from "@arcjet/next";
+import { aj } from "@/lib/arcjet";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,11 +43,24 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const req = await request();
+  const decision = await aj.protect(req);
+
+  if (decision.isDenied()) {
+    return (
+      <html lang="en">
+        <body>
+          <h1>Forbidden</h1>
+        </body>
+      </html>
+    );
+  }
+
   return (
     <html lang="en">
       <body
