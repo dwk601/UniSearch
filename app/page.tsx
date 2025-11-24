@@ -1,7 +1,6 @@
 "use client";
 
 import { CalendarIcon, FileTextIcon, GlobeIcon, InputIcon } from "@radix-ui/react-icons";
-import { BellIcon, Share2Icon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
 import { Marquee } from "@/components/ui/marquee";
@@ -12,7 +11,6 @@ import { WordRotate } from "@/components/ui/word-rotate";
 import { AnimatedList } from "@/components/ui/animated-list";
 import { ScrollVelocityRow } from "@/components/ui/scroll-based-velocity";
 import { useAuth } from "@/lib/auth-context";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";

@@ -1,7 +1,6 @@
 import { MagicCard } from "@/components/ui/magic-card"
 import { Badge } from "@/components/ui/badge"
 import { MapPin, Trophy, DollarSign, Users } from "lucide-react"
-import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { SaveSchoolButton } from "./SaveSchoolButton"
 
@@ -14,7 +13,7 @@ export interface SchoolCardProps {
             name: string
             states: {
                 name: string
-            }
+            } | null
         } | null
         admission_cycles: {
             percent_admitted_total: number | null
@@ -26,9 +25,9 @@ export interface SchoolCardProps {
 }
 
 export function SchoolCard({ institution, isSaved, onToggle }: SchoolCardProps) {
-    const location = institution.cities
+    const location = institution.cities && institution.cities.states
         ? `${institution.cities.name}, ${institution.cities.states.name}`
-        : "Location N/A"
+        : institution.cities ? institution.cities.name : "Location N/A"
 
     const admissionData = institution.admission_cycles?.[0]
     const acceptanceRate = admissionData?.percent_admitted_total

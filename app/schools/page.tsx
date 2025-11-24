@@ -1,8 +1,6 @@
-import { Suspense } from "react"
 import { FilterSidebar } from "@/components/FilterSidebar"
 import { SearchBar } from "@/components/SearchBar"
 import { SchoolList } from "@/components/SchoolList"
-import { Separator } from "@/components/ui/separator"
 import { DotPattern } from "@/components/ui/dot-pattern"
 import { cn } from "@/lib/utils"
 import { LogoutButton } from "@/components/LogoutButton"

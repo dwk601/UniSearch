@@ -28,6 +28,10 @@ export async function GET() {
 
     return NextResponse.json(data);
   } catch (error) {
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    console.error('Error fetching institution controls:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 }

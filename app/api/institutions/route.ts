@@ -70,10 +70,10 @@ export async function GET(request: NextRequest) {
         'Vary': 'Cookie',
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error in institutions API:', error);
     return NextResponse.json(
-      { error: 'Internal server error', details: error.message },
+      { error: 'Internal server error', details: (error as Error).message },
       { status: 500 }
     );
   }

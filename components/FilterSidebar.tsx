@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/select"
 import { useRouter, useSearchParams, usePathname } from "next/navigation"
 import { useCallback, useState, useEffect } from "react"
-import { X } from "lucide-react"
 
 export function FilterSidebar({ states = [], cities = [] }: { states: string[], cities: { name: string, state: string }[] }) {
     const searchParams = useSearchParams()

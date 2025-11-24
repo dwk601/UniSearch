@@ -1,4 +1,3 @@
-import { Suspense } from "react"
 import { notFound } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import { getInstitutionById } from "@/lib/institutions"
@@ -14,7 +13,6 @@ import { SparklesText } from "@/components/ui/sparkles-text"
 import { BorderBeam } from "@/components/ui/border-beam"
 import { 
     MapPin, 
-    Trophy, 
     Users, 
     DollarSign, 
     GraduationCap, 
@@ -53,7 +51,7 @@ export default async function SchoolDetailsPage({
     }
 
     // Helper to safely get single item from array or object
-    const getSingle = (item: any) => Array.isArray(item) ? item[0] : item
+    const getSingle = <T,>(item: T | T[] | null | undefined): T | undefined => (Array.isArray(item) ? item[0] : item) || undefined
 
     const city = getSingle(institution.cities)
     const state = getSingle(city?.states)
@@ -61,11 +59,11 @@ export default async function SchoolDetailsPage({
     const level = getSingle(institution.institution_levels)
 
     // Get latest admission cycle and enrollment stats
-    const admissionCycles = institution.admission_cycles as any[]
-    const admissionCycle = admissionCycles?.sort((a: any, b: any) => b.year_admissions - a.year_admissions)[0]
+    const admissionCycles = institution.admission_cycles
+    const admissionCycle = admissionCycles?.sort((a, b) => b.year_admissions - a.year_admissions)[0]
     
-    const enrollmentStatsList = institution.enrollment_stats as any[]
-    const enrollmentStats = enrollmentStatsList?.sort((a: any, b: any) => b.year_enrollment - a.year_enrollment)[0]
+    const enrollmentStatsList = institution.enrollment_stats
+    const enrollmentStats = enrollmentStatsList?.sort((a, b) => b.year_enrollment - a.year_enrollment)[0]
     
     const englishReqs = getSingle(admissionCycle?.english_requirements)
     const testScores = getSingle(admissionCycle?.test_scores)
@@ -280,7 +278,7 @@ export default async function SchoolDetailsPage({
                                         Popular Majors
                                     </h2>
                                     <div className="flex flex-wrap gap-2">
-                                        {institution.popular_majors?.map((major: any, idx: number) => (
+                                        {institution.popular_majors?.map((major, idx) => (
                                             <BlurFade key={idx} delay={0.04 * idx} inView>
                                                 <Badge variant="secondary" className="text-sm py-1 px-3 hover:bg-primary hover:text-primary-foreground transition-colors cursor-default">
                                                     {major.major_name}
@@ -322,7 +320,7 @@ export default async function SchoolDetailsPage({
                                         <div>
                                             <div className="text-sm font-medium text-muted-foreground mb-2">Required Documents</div>
                                             <AnimatedList delay={1000}>
-                                                {admissionCycle?.international_documents?.map((doc: any, idx: number) => (
+                                                {admissionCycle?.international_documents?.map((doc, idx) => (
                                                     <div key={idx} className="flex items-start gap-2 p-2 rounded-md bg-muted/50 mb-2">
                                                         <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
                                                         <span className="text-sm">{doc.document_name}</span>

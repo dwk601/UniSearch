@@ -1,13 +1,14 @@
 "use client"
 
-import { SchoolCard, SchoolCardProps } from "@/components/SchoolCard"
+import { SchoolCard } from "@/components/SchoolCard"
 import { Button } from "@/components/ui/button"
 import { BlurFade } from "@/components/ui/blur-fade"
 import { useState, useEffect } from "react"
 import { Loader2 } from "lucide-react"
+import { InstitutionSummary } from "@/lib/types/database"
 
 interface SchoolListProps {
-    initialData: SchoolCardProps['institution'][]
+    initialData: InstitutionSummary[]
     initialPagination: {
         hasMore: boolean
         offset: number
@@ -19,7 +20,7 @@ interface SchoolListProps {
 }
 
 export function SchoolList({ initialData, initialPagination, searchParams, savedSchoolIds = [] }: SchoolListProps) {
-    const [schools, setSchools] = useState<SchoolCardProps['institution'][]>(initialData)
+    const [schools, setSchools] = useState<InstitutionSummary[]>(initialData)
     const [pagination, setPagination] = useState(initialPagination)
     const [loading, setLoading] = useState(false)
 
@@ -55,8 +56,8 @@ export function SchoolList({ initialData, initialPagination, searchParams, saved
 
             if (data.data) {
                 setSchools((prev) => {
-                    const newSchools = data.data.filter(
-                        (newSchool: SchoolCardProps['institution']) => !prev.some((s) => s.institution_id === newSchool.institution_id)
+                    const newSchools = (data.data as InstitutionSummary[]).filter(
+                        (newSchool) => !prev.some((s) => s.institution_id === newSchool.institution_id)
                     )
                     return [...prev, ...newSchools]
                 })

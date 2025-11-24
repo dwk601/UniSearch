@@ -39,7 +39,7 @@ export function SaveSchoolButton({
       const result = await toggleSavedSchool(institutionId)
       setIsSaved(result.saved)
       if (onToggle) onToggle(result.saved)
-    } catch (error) {
+    } catch (error: unknown) {
       // Revert
       setIsSaved(!newState)
       const err = error as Error

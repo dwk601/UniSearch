@@ -1,5 +1,6 @@
 import { SupabaseClient } from "@supabase/supabase-js"
 import { SearchParams } from "@/lib/validations"
+import { InstitutionSummary } from "@/lib/types/database"
 
 export function buildInstitutionsQuery(supabase: SupabaseClient, params: SearchParams, isCount: boolean = false) {
     // Build query with joins to reference tables
@@ -127,7 +128,7 @@ export function buildInstitutionsQuery(supabase: SupabaseClient, params: SearchP
     return query
 }
 
-export async function getInstitutions(supabase: SupabaseClient, params: SearchParams) {
+export async function getInstitutions(supabase: SupabaseClient, params: SearchParams): Promise<InstitutionSummary[]> {
     let query = buildInstitutionsQuery(supabase, params, false)
 
     if (params.limit) {
@@ -162,7 +163,7 @@ export async function getInstitutions(supabase: SupabaseClient, params: SearchPa
 
     const { data, error } = await query
     if (error) throw error
-    return data
+    return data as unknown as InstitutionSummary[]
 }
 
 export async function getInstitutionsCount(supabase: SupabaseClient, params: SearchParams) {
@@ -203,7 +204,7 @@ export async function getCities(supabase: SupabaseClient) {
     // or maybe the type inference is just seeing it as array.
     return data.map(c => ({ 
         name: c.name, 
-        state: Array.isArray(c.states) ? c.states[0].name : (c.states as { name: string }).name 
+        state: Array.isArray(c.states) ? c.states[0].name : (c.states as unknown as { name: string }).name 
     }))
 }
 

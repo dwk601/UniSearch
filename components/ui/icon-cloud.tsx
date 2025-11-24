@@ -42,6 +42,11 @@ export function IconCloud({ icons, images }: IconCloudProps) {
   const iconCanvasesRef = useRef<HTMLCanvasElement[]>([])
   const imagesLoadedRef = useRef<boolean[]>([])
 
+  // Update rotationRef when rotation state changes (though we mostly use ref directly)
+  useEffect(() => {
+    rotationRef.current = rotation
+  }, [rotation])
+
   // Create icon canvases once when icons/images change
   useEffect(() => {
     if (!icons && !images) return
@@ -197,10 +202,13 @@ export function IconCloud({ icons, images }: IconCloudProps) {
       const deltaX = e.clientX - lastMousePos.x
       const deltaY = e.clientY - lastMousePos.y
 
-      rotationRef.current = {
+      const newRotation = {
         x: rotationRef.current.x + deltaY * 0.002,
         y: rotationRef.current.y + deltaX * 0.002,
       }
+      
+      rotationRef.current = newRotation
+      setRotation(newRotation)
 
       setLastMousePos({ x: e.clientX, y: e.clientY })
     }

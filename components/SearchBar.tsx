@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
 import { useSearchParams, useRouter, usePathname } from "next/navigation"
 import { useCallback, useState, useEffect } from "react"
-import { useDebounce } from "@/hooks/use-debounce" // Assuming this hook exists or I'll create it, or just implement debounce here.
 
 // I'll implement simple debounce here to avoid dependency on missing hook
 function useDebounceValue<T>(value: T, delay: number): T {

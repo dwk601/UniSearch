@@ -5,7 +5,7 @@ export type AdminUser = {
   user_id: string;
   role: 'admin' | 'super_admin';
   is_active: boolean | null;
-  permissions: Record<string, any> | null;
+  permissions: Record<string, unknown> | null;
   created_at: string | null;
   updated_at: string | null;
   created_by: string | null;
@@ -21,6 +21,10 @@ export type AdmissionCycle = {
   applicants_total: number | null;
   percent_admitted_total: number | null;
   open_admission_policy: string | null;
+  admission_requirements?: AdmissionRequirement[] | null;
+  english_requirements?: EnglishRequirement[] | null;
+  test_scores?: TestScore[] | null;
+  international_documents?: InternationalDocument[] | null;
 };
 
 export type AdmissionRequirement = {
@@ -149,8 +153,27 @@ export type InstitutionWithDetails = Institution & {
   institution_levels: InstitutionLevel | null;
   institution_controls: InstitutionControl | null;
   urbanization_locales: UrbanizationLocale | null;
+  admission_cycles?: AdmissionCycle[] | null;
+  enrollment_stats?: EnrollmentStat[] | null;
+  popular_majors?: PopularMajor[] | null;
 };
 
 export type SavedSchoolWithDetails = SavedSchool & {
   institutions: InstitutionWithDetails | null;
+};
+
+export type InstitutionSummary = {
+  institution_id: number;
+  institution_name: string;
+  rank: number | null;
+  cities: {
+    name: string;
+    states: {
+      name: string;
+    } | null;
+  } | null;
+  admission_cycles: {
+    percent_admitted_total: number | null;
+    tuition_and_fees: number | null;
+  }[] | null;
 };

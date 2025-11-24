@@ -30,6 +30,10 @@ export async function GET() {
 
     return NextResponse.json(uniqueDocuments);
   } catch (error) {
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    console.error('Error fetching international documents:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 }
