@@ -6,6 +6,12 @@ import { cn } from "@/lib/utils"
 import { LogoutButton } from "@/components/LogoutButton"
 
 import { SortSelect } from "@/components/SortSelect"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Explore Schools",
+  description: "Search and filter through thousands of US undergraduate institutions. Find the perfect match for your academic goals with our advanced search tools.",
+}
 
 // Force dynamic rendering since we use searchParams
 export const dynamic = "force-dynamic"

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import { getInstitutionById } from "@/lib/institutions"
 import { Badge } from "@/components/ui/badge"
+import { Metadata } from "next"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { DotPattern } from "@/components/ui/dot-pattern"
@@ -27,6 +28,36 @@ import {
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { SaveSchoolButton } from "@/components/SaveSchoolButton"
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+    const { id } = await params
+    const supabase = await createClient()
+    
+    try {
+        const institution = await getInstitutionById(supabase, parseInt(id))
+        if (!institution) {
+            return {
+                title: "School Not Found",
+                description: "The requested school could not be found."
+            }
+        }
+
+        return {
+            title: institution.institution_name,
+            description: `Learn about admission requirements, tuition, acceptance rates, and more for ${institution.institution_name}.`,
+            openGraph: {
+                title: `${institution.institution_name} - UniSearch`,
+                description: `Detailed information about ${institution.institution_name}, including admission stats, tuition, and international student requirements.`,
+            }
+        }
+    } catch (error) {
+        console.error(error)
+        return {
+            title: "Error",
+            description: "An error occurred while fetching school details."
+        }
+    }
+}
 
 export const dynamic = "force-dynamic"
 
