@@ -6,7 +6,7 @@ import { AuthWrapper } from "@/components/AuthWrapper";
 import { Navbar } from "@/components/Navbar";
 import { request } from "@arcjet/next";
 import { aj } from "@/lib/arcjet";
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics } from "@vercel/analytics/next"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
