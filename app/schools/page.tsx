@@ -49,6 +49,20 @@ export default async function SchoolsPage({
     const states = await getStates(supabase)
     const cities = await getCities(supabase)
 
+    // Fetch saved schools if user is logged in
+    const { data: { user } } = await supabase.auth.getUser()
+    let savedSchoolIds: number[] = []
+    if (user) {
+        const { data: saved } = await supabase
+            .from("saved_schools")
+            .select("institution_id")
+            .eq("user_id", user.id)
+        
+        if (saved) {
+            savedSchoolIds = saved.map(s => s.institution_id)
+        }
+    }
+
     const responseData = {
         data: data || [],
         pagination: {
@@ -101,6 +115,7 @@ export default async function SchoolsPage({
                             initialData={responseData.data}
                             initialPagination={responseData.pagination}
                             searchParams={resolvedSearchParams}
+                            savedSchoolIds={savedSchoolIds}
                         />
                     </main>
                 </div>

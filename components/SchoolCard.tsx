@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge"
 import { MapPin, Trophy, DollarSign, Users } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
+import { SaveSchoolButton } from "./SaveSchoolButton"
 
 export interface SchoolCardProps {
     institution: {
@@ -20,9 +21,11 @@ export interface SchoolCardProps {
             tuition_and_fees: number | null
         }[] | null
     }
+    isSaved?: boolean
+    onToggle?: (isSaved: boolean) => void
 }
 
-export function SchoolCard({ institution }: SchoolCardProps) {
+export function SchoolCard({ institution, isSaved, onToggle }: SchoolCardProps) {
     const location = institution.cities
         ? `${institution.cities.name}, ${institution.cities.states.name}`
         : "Location N/A"
@@ -37,11 +40,19 @@ export function SchoolCard({ institution }: SchoolCardProps) {
         : "N/A"
 
     return (
-        <Link href={`/schools/${institution.institution_id}`} className="block h-full">
+        <Link href={`/schools/${institution.institution_id}`} className="block h-full group relative">
             <MagicCard
                 className="h-full cursor-pointer flex flex-col justify-between p-6 shadow-sm hover:shadow-md transition-all duration-200"
                 gradientColor="#D9D9D955"
             >
+                <div className="absolute bottom-4 right-4 z-20">
+                    <SaveSchoolButton 
+                        institutionId={institution.institution_id} 
+                        initialIsSaved={isSaved}
+                        onToggle={onToggle}
+                    />
+                </div>
+
                 <div className="space-y-4">
                     <div className="flex justify-between items-start gap-2">
                         <h3 className="text-lg font-bold leading-tight group-hover:text-primary transition-colors line-clamp-2">

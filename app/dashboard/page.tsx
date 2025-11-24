@@ -348,7 +348,15 @@ export default function DashboardPage() {
               {savedSchools.map((item) => (
                 <div key={item.id} className="relative group">
                    {/* We pass the institution object from the join */}
-                  <SchoolCard institution={item.institution} />
+                  <SchoolCard 
+                    institution={item.institution} 
+                    isSaved={true}
+                    onToggle={(saved) => {
+                        if (!saved) {
+                            setSavedSchools(prev => prev.filter(s => s.institution.institution_id !== item.institution.institution_id))
+                        }
+                    }}
+                  />
                 </div>
               ))}
             </div>

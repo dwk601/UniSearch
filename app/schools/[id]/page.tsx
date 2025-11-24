@@ -28,6 +28,7 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
+import { SaveSchoolButton } from "@/components/SaveSchoolButton"
 
 export const dynamic = "force-dynamic"
 
@@ -70,6 +71,19 @@ export default async function SchoolDetailsPage({
     const testScores = getSingle(admissionCycle?.test_scores)
     const admissionReqs = getSingle(admissionCycle?.admission_requirements)
 
+    // Check if saved
+    const { data: { user } } = await supabase.auth.getUser()
+    let isSaved = false
+    if (user) {
+        const { data: saved } = await supabase
+            .from("saved_schools")
+            .select("id")
+            .eq("user_id", user.id)
+            .eq("institution_id", parseInt(id))
+            .single()
+        if (saved) isSaved = true
+    }
+
     return (
         <div className="min-h-screen bg-background relative overflow-hidden">
             <DotPattern
@@ -92,7 +106,14 @@ export default async function SchoolDetailsPage({
                         {/* Header Section */}
                         <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                             <div className="space-y-2">
-                                <h1 className="text-4xl font-bold tracking-tight">{institution.institution_name}</h1>
+                                <div className="flex items-center gap-4">
+                                    <h1 className="text-4xl font-bold tracking-tight">{institution.institution_name}</h1>
+                                    <SaveSchoolButton 
+                                        institutionId={institution.institution_id} 
+                                        initialIsSaved={isSaved}
+                                        className="h-10 w-10"
+                                    />
+                                </div>
                                 <div className="flex flex-wrap items-center gap-3 text-muted-foreground">
                                     <div className="flex items-center gap-1">
                                         <MapPin className="w-4 h-4" />

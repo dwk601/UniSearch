@@ -15,9 +15,10 @@ interface SchoolListProps {
         total: number
     }
     searchParams: any
+    savedSchoolIds?: number[]
 }
 
-export function SchoolList({ initialData, initialPagination, searchParams }: SchoolListProps) {
+export function SchoolList({ initialData, initialPagination, searchParams, savedSchoolIds = [] }: SchoolListProps) {
     const [schools, setSchools] = useState(initialData)
     const [pagination, setPagination] = useState(initialPagination)
     const [loading, setLoading] = useState(false)
@@ -76,7 +77,10 @@ export function SchoolList({ initialData, initialPagination, searchParams }: Sch
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {schools.map((school, idx) => (
                     <BlurFade key={school.institution_id} delay={0.05 * idx} inView>
-                        <SchoolCard institution={school} />
+                        <SchoolCard 
+                            institution={school} 
+                            isSaved={savedSchoolIds.includes(school.institution_id)}
+                        />
                     </BlurFade>
                 ))}
             </div>
