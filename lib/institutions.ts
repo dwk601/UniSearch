@@ -134,7 +134,31 @@ export async function getInstitutions(supabase: SupabaseClient, params: SearchPa
         query = query.range(params.offset, params.offset + params.limit - 1)
     }
 
-    query = query.order('rank', { ascending: true, nullsFirst: false }).order('institution_id', { ascending: true })
+    // Apply sorting
+    if (params.sort) {
+        switch (params.sort) {
+            case 'rank_asc':
+                query = query.order('rank', { ascending: true, nullsFirst: false })
+                break
+            case 'rank_desc':
+                query = query.order('rank', { ascending: false, nullsFirst: false })
+                break
+            case 'name_asc':
+                query = query.order('institution_name', { ascending: true })
+                break
+            case 'name_desc':
+                query = query.order('institution_name', { ascending: false })
+                break
+            default:
+                query = query.order('rank', { ascending: true, nullsFirst: false })
+        }
+    } else {
+        // Default sort
+        query = query.order('rank', { ascending: true, nullsFirst: false })
+    }
+    
+    // Always add secondary sort for stability
+    query = query.order('institution_id', { ascending: true })
 
     const { data, error } = await query
     if (error) throw error
@@ -179,7 +203,7 @@ export async function getCities(supabase: SupabaseClient) {
     // or maybe the type inference is just seeing it as array.
     return data.map(c => ({ 
         name: c.name, 
-        state: Array.isArray(c.states) ? c.states[0].name : (c.states as any).name 
+        state: Array.isArray(c.states) ? c.states[0].name : (c.states as { name: string }).name 
     }))
 }
 

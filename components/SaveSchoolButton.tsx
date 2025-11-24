@@ -39,13 +39,14 @@ export function SaveSchoolButton({
       const result = await toggleSavedSchool(institutionId)
       setIsSaved(result.saved)
       if (onToggle) onToggle(result.saved)
-    } catch (error: any) {
+    } catch (error) {
       // Revert
       setIsSaved(!newState)
-      if (error.message === "Unauthorized") {
+      const err = error as Error
+      if (err.message === "Unauthorized") {
         router.push("/login")
       } else {
-        alert(error.message || "Failed to save school")
+        alert(err.message || "Failed to save school")
       }
     } finally {
       setLoading(false)

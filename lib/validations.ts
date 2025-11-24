@@ -261,6 +261,7 @@ export const searchParamsSchema = z.object({
   min_acceptance_rate: z.number().min(0).max(100).optional(),
   min_intl_percent: z.number().min(0).max(100).optional(),
   only_ranked: z.boolean().optional(),
+  sort: z.enum(['rank_asc', 'rank_desc', 'name_asc', 'name_desc']).optional(),
   limit: z.number().int().min(1).optional(),
   offset: z.number().int().min(0).default(0),
 });

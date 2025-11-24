@@ -7,6 +7,8 @@ import { DotPattern } from "@/components/ui/dot-pattern"
 import { cn } from "@/lib/utils"
 import { LogoutButton } from "@/components/LogoutButton"
 
+import { SortSelect } from "@/components/SortSelect"
+
 // Force dynamic rendering since we use searchParams
 export const dynamic = "force-dynamic"
 
@@ -40,6 +42,7 @@ export default async function SchoolsPage({
         min_acceptance_rate: resolvedSearchParams.min_acceptance_rate ? parseInt(resolvedSearchParams.min_acceptance_rate as string) : undefined,
         min_intl_percent: resolvedSearchParams.min_intl_percent ? parseFloat(resolvedSearchParams.min_intl_percent as string) : undefined,
         only_ranked: resolvedSearchParams.only_ranked === 'true',
+        sort: (resolvedSearchParams.sort as "rank_asc" | "rank_desc" | "name_asc" | "name_desc" | undefined),
         limit,
         offset,
     }
@@ -104,11 +107,14 @@ export default async function SchoolsPage({
 
                     {/* Main Content */}
                     <main className="min-w-0">
-                        <div className="mb-6">
-                            <h1 className="text-3xl font-bold tracking-tight mb-2">Explore Schools</h1>
-                            <p className="text-muted-foreground">
-                                Find the perfect college for your future.
-                            </p>
+                        <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div>
+                                <h1 className="text-3xl font-bold tracking-tight mb-2">Explore Schools</h1>
+                                <p className="text-muted-foreground">
+                                    Find the perfect college for your future.
+                                </p>
+                            </div>
+                            <SortSelect />
                         </div>
 
                         <SchoolList

@@ -1,25 +1,25 @@
 "use client"
 
-import { SchoolCard } from "@/components/SchoolCard"
+import { SchoolCard, SchoolCardProps } from "@/components/SchoolCard"
 import { Button } from "@/components/ui/button"
 import { BlurFade } from "@/components/ui/blur-fade"
 import { useState, useEffect } from "react"
 import { Loader2 } from "lucide-react"
 
 interface SchoolListProps {
-    initialData: any[]
+    initialData: SchoolCardProps['institution'][]
     initialPagination: {
         hasMore: boolean
         offset: number
         limit: number
         total: number
     }
-    searchParams: any
+    searchParams: Record<string, string | string[] | undefined>
     savedSchoolIds?: number[]
 }
 
 export function SchoolList({ initialData, initialPagination, searchParams, savedSchoolIds = [] }: SchoolListProps) {
-    const [schools, setSchools] = useState(initialData)
+    const [schools, setSchools] = useState<SchoolCardProps['institution'][]>(initialData)
     const [pagination, setPagination] = useState(initialPagination)
     const [loading, setLoading] = useState(false)
 
@@ -38,7 +38,13 @@ export function SchoolList({ initialData, initialPagination, searchParams, saved
         // Construct query string from searchParams
         const params = new URLSearchParams()
         Object.entries(searchParams).forEach(([key, value]) => {
-            if (value) params.set(key, value as string)
+            if (value) {
+                if (Array.isArray(value)) {
+                    value.forEach(v => params.append(key, v))
+                } else {
+                    params.set(key, value)
+                }
+            }
         })
         params.set("offset", nextOffset.toString())
         params.set("limit", pagination.limit.toString())
@@ -50,7 +56,7 @@ export function SchoolList({ initialData, initialPagination, searchParams, saved
             if (data.data) {
                 setSchools((prev) => {
                     const newSchools = data.data.filter(
-                        (newSchool: any) => !prev.some((s) => s.institution_id === newSchool.institution_id)
+                        (newSchool: SchoolCardProps['institution']) => !prev.some((s) => s.institution_id === newSchool.institution_id)
                     )
                     return [...prev, ...newSchools]
                 })
