@@ -1,103 +1,179 @@
-import Image from "next/image";
+"use client";
+
+import { CalendarIcon, FileTextIcon, GlobeIcon, InputIcon } from "@radix-ui/react-icons";
+import { BellIcon, Share2Icon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
+import { Marquee } from "@/components/ui/marquee";
+import { Globe } from "@/components/ui/globe";
+import { Particles } from "@/components/ui/particles";
+import { RainbowButton } from "@/components/ui/rainbow-button";
+import { WordRotate } from "@/components/ui/word-rotate";
+import { AnimatedList } from "@/components/ui/animated-list";
+import { ScrollVelocityRow } from "@/components/ui/scroll-based-velocity";
+
+const features = [
+  {
+    Icon: FileTextIcon,
+    name: "Comprehensive Data",
+    description: "Access detailed insights on thousands of US undergraduate institutions.",
+    href: "/schools",
+    cta: "Learn more",
+    className: "col-span-3 lg:col-span-1",
+    background: (
+      <Marquee
+        pauseOnHover
+        className="absolute top-10 [--duration:20s] [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] "
+      >
+        {["Harvard", "MIT", "Stanford", "Yale", "Princeton"].map((f, idx) => (
+          <figure
+            key={idx}
+            className={cn(
+              "relative w-32 cursor-pointer overflow-hidden rounded-xl border p-4",
+              "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
+              "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]",
+              "transform-gpu blur-[1px] transition-all duration-300 ease-out hover:blur-none",
+            )}
+          >
+            <div className="flex flex-row items-center gap-2">
+              <div className="flex flex-col">
+                <figcaption className="text-sm font-medium dark:text-white ">
+                  {f}
+                </figcaption>
+              </div>
+            </div>
+          </figure>
+        ))}
+      </Marquee>
+    ),
+  },
+  {
+    Icon: InputIcon,
+    name: "Smart Search",
+    description: "Find the perfect school with our advanced filtering system.",
+    href: "/schools",
+    cta: "Learn more",
+    className: "col-span-3 lg:col-span-2",
+    background: (
+      <AnimatedList className="absolute right-2 top-4 h-[300px] w-full border-none transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_10%,#000_100%)] group-hover:scale-105">
+         <div className="flex flex-row items-center gap-3 rounded-2xl p-3 bg-white dark:bg-black shadow-sm w-full max-w-[300px] ml-auto mr-4">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FFB800]">
+              <span className="text-lg">🎓</span>
+            </div>
+            <div className="flex flex-col overflow-hidden">
+              <figcaption className="flex flex-row items-center whitespace-pre text-lg font-medium dark:text-white ">
+                <span className="text-sm sm:text-lg">University of California</span>
+                <span className="mx-1">·</span>
+                <span className="text-xs text-gray-500">Just now</span>
+              </figcaption>
+              <p className="text-sm font-normal dark:text-white/60">
+                Added to your favorites
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-row items-center gap-3 rounded-2xl p-3 bg-white dark:bg-black shadow-sm w-full max-w-[300px] ml-auto mr-4">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#00C9A7]">
+              <span className="text-lg">🏫</span>
+            </div>
+            <div className="flex flex-col overflow-hidden">
+              <figcaption className="flex flex-row items-center whitespace-pre text-lg font-medium dark:text-white ">
+                <span className="text-sm sm:text-lg">New York University</span>
+                <span className="mx-1">·</span>
+                <span className="text-xs text-gray-500">5m ago</span>
+              </figcaption>
+              <p className="text-sm font-normal dark:text-white/60">
+                Application deadline approaching
+              </p>
+            </div>
+          </div>
+      </AnimatedList>
+    ),
+  },
+  {
+    Icon: GlobeIcon,
+    name: "International Focus",
+    description: "Resources and tools designed specifically for non-US students.",
+    href: "/schools",
+    cta: "Learn more",
+    className: "col-span-3 lg:col-span-2",
+    background: (
+      <Globe className="top-0 h-[600px] w-[600px] transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_30%,#000_100%)] group-hover:scale-105 sm:left-40" />
+    ),
+  },
+  {
+    Icon: CalendarIcon,
+    name: "Admission Cycles",
+    description: "Stay on top of important dates and deadlines.",
+    href: "/schools",
+    cta: "Learn more",
+    className: "col-span-3 lg:col-span-1",
+    background: (
+      <div className="absolute right-0 top-10 origin-top rounded-md border transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] group-hover:scale-105" />
+    ),
+  },
+];
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+    <div className="relative min-h-screen w-full overflow-hidden bg-background">
+      <Particles
+        className="absolute inset-0 z-0"
+        quantity={100}
+        ease={80}
+        color="#000000"
+        refresh
+      />
+      
+      <main className="relative z-10 flex flex-col items-center justify-center px-4 py-32 md:px-10 lg:px-20">
+        {/* Hero Section */}
+        <div className="mb-32 flex flex-col items-center text-center">
+          <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-7xl lg:text-8xl">
+            Find your dream
+            <WordRotate
+              className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-7xl lg:text-8xl text-primary mt-2"
+              words={["University", "College", "School", "Future"]}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </h1>
+          <p className="mt-8 max-w-2xl text-lg text-muted-foreground sm:text-xl">
+            The ultimate platform for international students to discover and apply to 
+            undergraduate universities in the United States.
+          </p>
+          <div className="mt-12 flex gap-4">
+            <RainbowButton onClick={() => window.location.href = '/schools'}>
+              Start Exploring
+            </RainbowButton>
+          </div>
+        </div>
+
+        {/* Features Grid */}
+        <div className="w-full max-w-6xl">
+          <BentoGrid>
+            {features.map((feature, idx) => (
+              <BentoCard key={idx} {...feature} />
+            ))}
+          </BentoGrid>
+        </div>
+
+        {/* Trusted By Section */}
+        <div className="mt-32 w-full max-w-6xl">
+          <h2 className="mb-16 text-center text-2xl font-semibold text-muted-foreground">
+            Empowering students from
+          </h2>
+          <div className="w-full">
+            <ScrollVelocityRow 
+              baseVelocity={1} 
+              className="font-display text-center text-4xl font-bold tracking-[-0.02em] text-black drop-shadow-sm dark:text-white md:text-7xl md:leading-[5rem]"
+            >
+              {["South Korea", "China", "India", "Brazil", "Vietnam", "Canada", "Nigeria", "Japan", "Germany", "France"].map((country) => (
+                <span key={country} className="mx-8 text-xl font-medium text-muted-foreground/50">
+                  {country}
+                </span>
+              ))}
+            </ScrollVelocityRow>
+          </div>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
+
