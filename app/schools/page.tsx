@@ -5,6 +5,7 @@ import { SchoolList } from "@/components/SchoolList"
 import { Separator } from "@/components/ui/separator"
 import { DotPattern } from "@/components/ui/dot-pattern"
 import { cn } from "@/lib/utils"
+import { LogoutButton } from "@/components/LogoutButton"
 
 // Force dynamic rendering since we use searchParams
 export const dynamic = "force-dynamic"
@@ -72,7 +73,9 @@ export default async function SchoolsPage({
                     <div className="flex-1 max-w-xl">
                         <SearchBar />
                     </div>
-                    <div className="w-[100px]"></div> {/* Spacer for balance */}
+                    <div className="flex items-center justify-end w-[120px]">
+                        <LogoutButton />
+                    </div>
                 </div>
             </div>
 

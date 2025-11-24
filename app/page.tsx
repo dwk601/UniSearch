@@ -11,6 +11,12 @@ import { RainbowButton } from "@/components/ui/rainbow-button";
 import { WordRotate } from "@/components/ui/word-rotate";
 import { AnimatedList } from "@/components/ui/animated-list";
 import { ScrollVelocityRow } from "@/components/ui/scroll-based-velocity";
+import { useAuth } from "@/lib/auth-context";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
+import { ShinyButton } from "@/components/ui/shiny-button";
 
 const features = [
   {
@@ -114,8 +120,45 @@ const features = [
 ];
 
 export default function Home() {
+  const { user, signOut } = useAuth();
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push("/");
+    router.refresh();
+  };
+
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-background">
+      <header className="absolute top-0 z-50 flex w-full items-center justify-between p-6 px-4 md:px-10 lg:px-20">
+        <div className="text-xl font-bold">Uni</div>
+        <div className="flex gap-4">
+          {user ? (
+            <div className="flex items-center gap-4">
+              <span className="hidden text-sm text-muted-foreground sm:inline-block">
+                {user.email}
+              </span>
+              <ShinyButton onClick={handleSignOut} className="bg-background">
+                Log out
+              </ShinyButton>
+              <Link href="/schools">
+                <InteractiveHoverButton>Dashboard</InteractiveHoverButton>
+              </Link>
+            </div>
+          ) : (
+            <>
+              <Link href="/login">
+                <ShinyButton className="bg-background">Log in</ShinyButton>
+              </Link>
+              <Link href="/login">
+                <InteractiveHoverButton>Sign up</InteractiveHoverButton>
+              </Link>
+            </>
+          )}
+        </div>
+      </header>
+
       <Particles
         className="absolute inset-0 z-0"
         quantity={100}
@@ -139,7 +182,7 @@ export default function Home() {
             undergraduate universities in the United States.
           </p>
           <div className="mt-12 flex gap-4">
-            <RainbowButton onClick={() => window.location.href = '/schools'}>
+            <RainbowButton onClick={() => router.push(user ? '/schools' : '/login')}>
               Start Exploring
             </RainbowButton>
           </div>

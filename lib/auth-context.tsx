@@ -5,11 +5,20 @@ import type { User, Session, AuthError } from '@supabase/supabase-js';
 import { supabase } from './supabaseClient';
 import { signOut as authSignOut } from './auth';
 
+export interface SignUpData {
+  email: string;
+  password: string;
+  fullName: string;
+  country: string;
+  intendedMajor: string;
+}
+
 export interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
-  signUp: (email: string, password: string) => Promise<void>;
+  isInitialized: boolean;
+  signUp: (data: SignUpData) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   error: AuthError | null;
@@ -21,6 +30,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isInitialized, setIsInitialized] = useState(false);
   const [error, setError] = useState<AuthError | null>(null);
 
   useEffect(() => {
@@ -34,6 +44,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(session?.user ?? null);
       }
       setLoading(false);
+      setIsInitialized(true);
     };
 
     getInitialSession();
@@ -52,13 +63,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  const signUp = async (email: string, password: string) => {
+  const signUp = async (data: SignUpData) => {
     setLoading(true);
     setError(null);
 
     const { error } = await supabase.auth.signUp({
-      email,
-      password,
+      email: data.email,
+      password: data.password,
+      options: {
+        data: {
+          full_name: data.fullName,
+          country: data.country,
+          intended_major: data.intendedMajor,
+        },
+      },
     });
 
     if (error) {
@@ -109,6 +127,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     user,
     session,
     loading,
+    isInitialized,
     signUp,
     signIn,
     signOut,
