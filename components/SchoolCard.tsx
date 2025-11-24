@@ -4,7 +4,7 @@ import { MapPin, Trophy, DollarSign, Users } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 
-interface SchoolCardProps {
+export interface SchoolCardProps {
     institution: {
         institution_id: number
         institution_name: string
