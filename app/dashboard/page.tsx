@@ -55,8 +55,11 @@ export default function DashboardPage() {
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null)
 
   useEffect(() => {
+    let isMounted = true
+
     const fetchData = async () => {
       try {
+        if (!isMounted) return
         setLoading(true)
         if (!user) return
   
@@ -67,6 +70,7 @@ export default function DashboardPage() {
           .eq("id", user.id)
           .single()
   
+        if (!isMounted) return
         if (profileError) throw profileError
   
         if (profile) {
@@ -99,21 +103,28 @@ export default function DashboardPage() {
           .eq("user_id", user.id)
           .order("created_at", { ascending: false })
   
+        if (!isMounted) return
         if (schoolsError) throw schoolsError
   
         // Cast the result to match our interface since Supabase types might not perfectly align with our UI types automatically
         setSavedSchools((schools as unknown as SavedSchool[]) || [])
       } catch (error) {
-        console.error("Error fetching data:", error)
+        if (isMounted) console.error("Error fetching data:", error)
       } finally {
-        setLoading(false)
+        if (isMounted) setLoading(false)
       }
     }
 
-    if (!authLoading && !user) {
+    if (authLoading) return
+
+    if (!user) {
       router.push("/login")
-    } else if (user) {
+    } else {
       fetchData()
+    }
+
+    return () => {
+      isMounted = false
     }
   }, [user, authLoading, router])
 
