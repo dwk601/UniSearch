@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# UniSearch
 
-## Getting Started
+**UniSearch** is a modern web platform designed to empower international students in their journey to discover and apply to undergraduate institutions in the United States. It provides comprehensive data, advanced filtering, and tailored insights for non-US applicants.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Comprehensive Database**: Access detailed information on over 2,300+ US institutions, including rankings, tuition, and acceptance rates.
+- **Smart Search & Filtering**: Filter schools by location, major, test scores (SAT/ACT, TOEFL/IELTS), tuition costs, and more.
+- **International Focus**: Dedicated data points for international students, such as international tuition rates and English proficiency requirements.
+- **User Dashboard**: Create an account to save favorite schools and track your research.
+- **Modern UI**: A beautiful, responsive interface built with the latest web technologies.
+- **Secure**: Protected against bots and automated scraping.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components**: [Shadcn UI](https://ui.shadcn.com/), [Magic UI](https://magicui.design/)
+- **Backend & Auth**: [Supabase](https://supabase.com/) (PostgreSQL)
+- **Security**: [Arcjet](https://arcjet.com/) (Bot Protection)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🏁 Getting Started
 
-## Learn More
+### Prerequisites
 
-To learn more about Next.js, take a look at the following resources:
+- Node.js 18+
+- npm, yarn, pnpm, or bun
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1.  **Clone the repository:**
 
-## Deploy on Vercel
+    ```bash
+    git clone
+    cd uni-web
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2.  **Install dependencies:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
+
+3.  **Set up environment variables:**
+
+    Create a `.env.local` file in the root directory and add the following keys:
+
+    ```env
+    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+    ARCJET_KEY=your_arcjet_key
+    ```
+
+4.  **Run the development server:**
+
+    ```bash
+    npm run dev
+    ```
+
+    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## 📂 Project Structure
+
+- `app/`: Next.js App Router pages and API routes.
+- `components/`: Reusable UI components (SchoolCard, Filters, etc.).
+- `lib/`: Utility functions, Supabase client, and types.
+- `hooks/`: Custom React hooks.
+- `public/`: Static assets.
+
+## 📄 License
+
+This project is licensed under the MIT License.
